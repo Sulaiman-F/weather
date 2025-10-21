@@ -21,6 +21,16 @@ function Home() {
   const [temperatureUnit, setTemperatureUnit] = useState("C");
   const fetchCity = async (cityName) => {
     try {
+      if (cityName === "") {
+        toast.error("Please enter a city name", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+          duration: 3000,
+        });
+      }
       const response = await axios.get(
         `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=1`
       );
@@ -124,31 +134,33 @@ function Home() {
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              fetchCity(searchCity);
+              fetchCity(searchCity.trim());
               setSearchCity("");
             }
           }}
         />
         {weatherData.current ? (
           <div className="flex flex-col items-center gap-5 md:gap-10 w-full h-full">
-            <h1 className="text-2xl lg:text-3xl text-white">{city.name}</h1>
-            <div className="h-25 w-25 md:h-40 md:w-40">
+            <h1 className="text-2xl lg:text-3xl 2xl:text-4xl text-white">
+              {city.name}
+            </h1>
+            <div className="h-25 w-25 md:h-40 md:w-40 2xl:w-50 2xl:h-50">
               {isDay(weatherData.current?.time)
                 ? iconMapDay[weatherData.current?.weather_code]
                 : iconMapNight[weatherData.current?.weather_code]}
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl 2xl:text-8xl font-bold text-white">
               {temperatureUnit === "C"
                 ? weatherData.current?.temperature_2m
                 : convertToFahrenheit(weatherData.current?.temperature_2m)}
               °{temperatureUnit}
             </h1>
-            <h1 className="text-2xl md:text-3xl text-white border-b-1 pb-5 w-full md:w-4/5 text-center ">
+            <h1 className="text-2xl md:text-3xl 2xl:text-4xl text-white border-b-1 pb-5 w-full md:w-4/5 text-center ">
               {formatDateToWeekday(weatherData.daily?.time[0])}
             </h1>
             <div className="flex bg-[#191819] w-full md:w-4/5 justify-center p-4 rounded-2xl gap-5 shadow-md">
-              <div className="flex gap-1 items-center">
-                <WiCloudyWindy className="text-6xl text-white" />
+              <div className="flex gap-1 items-center text-base 2xl:text-lg">
+                <WiCloudyWindy className="text-6xl 2xl:text-7xl text-white" />
                 <div className="flex flex-col">
                   <span className="text-white">
                     {weatherData.current?.relative_humidity_2m}%
@@ -157,8 +169,8 @@ function Home() {
                 </div>
               </div>
               <div className="flex gap-1.5 items-center">
-                <FiWind className="text-5xl text-white" />
-                <div className="flex flex-col">
+                <FiWind className="text-5xl 2xl:text-6xl text-white" />
+                <div className="flex flex-col text-base  2xl:text-lg">
                   <span className="text-white">
                     {weatherData.current?.wind_speed_10m} km/h
                   </span>
@@ -175,22 +187,24 @@ function Home() {
       </div>
       <div className="flex flex-col items-center w-full lg:w-2/3 bg-gradient-to-tl  from-[#232327] via-[#232327] to-[#26272b] p-5 gap-10  rounded-2xl shadow-xl lg:h-[94vh] xl:h-full">
         <div className=" w-full border-b-1 border-white pb-5 flex items-center justify-between px-2">
-          <h2 className="text-3xl text-white">Weekly Forecast</h2>
+          <h2 className="text-2xl md:text-3xl 2xl:text-4xl text-white">
+            Weekly Forecast
+          </h2>
           <button
             onClick={() =>
               setTemperatureUnit(temperatureUnit === "C" ? "F" : "C")
             }
-            className="flex justify-between  items-center bg-[#1d1b1d] rounded-xl w-25 cursor-pointer"
+            className="flex justify-between  items-center bg-[#1d1b1d] rounded-xl w-25 2xl:w-30 cursor-pointer"
           >
             <div
-              className={`w-1/2 p-2 rounded-xl text-base md:text-lg lg:text-xl font-semibold transition-all duration-200  ${
+              className={`w-1/2 p-2 rounded-xl text-base md:text-lg lg:text-xl 2xl:text-2xl font-semibold transition-all duration-200  ${
                 temperatureUnit === "C" ? "bg-white text-black" : "text-white"
               }`}
             >
               °C
             </div>
             <div
-              className={`w-1/2 p-2 rounded-xl text-base md:text-lg lg:text-xl font-semibold transition-all duration-200  ${
+              className={`w-1/2 p-2 rounded-xl text-base md:text-lg lg:text-xl 2xl:text-2xl font-semibold transition-all duration-200  ${
                 temperatureUnit === "F" ? "bg-white text-black " : "text-white"
               }`}
             >
@@ -212,7 +226,7 @@ function Home() {
                   className="flex flex-col bg-[#191819] justify-center p-4 rounded-2xl gap-5 shadow-md items-center md:w-full hover:scale-103 transition-all duration-300"
                 >
                   <Skeleton width={80} baseColor="gray" />
-                  <div className="w-20 h-20 flex justify-center items-center ">
+                  <div className="w-20 h-20 flex justify-center items-center 2xl:w-30 2xl:h-30">
                     <Skeleton
                       circle={true}
                       height={80}
@@ -233,14 +247,14 @@ function Home() {
                   key={date}
                   className="flex flex-col bg-[#191819] justify-center p-4 rounded-2xl gap-2 md:gap-5 shadow-md items-center  md:w-full hover:scale-103 transition-all duration-300 "
                 >
-                  <span className="text-white">
+                  <span className="text-white text-base md:text-lg 2xl:text-xl">
                     {" "}
                     {formatDateToWeekday(date)}
                   </span>
-                  <div className="w-20 h-20 flex justify-center items-center ">
+                  <div className="w-20 h-20 flex justify-center items-center 2xl:w-30 2xl:h-30">
                     {iconMapDay[codes[i]]}
                   </div>
-                  <h1 className="text-white w-30 text-center md:w-fit text-nowrap">
+                  <h1 className="text-white w-30 text-center md:w-fit text-nowrap text-base md:text-lg 2xl:text-xl">
                     {temperatureUnit === "C"
                       ? mins[i]
                       : convertToFahrenheit(mins[i])}
@@ -257,7 +271,7 @@ function Home() {
         </div>
         <div className="flex justify-center items-end h-fit w-full">
           <button
-            className="flex justify-center items-center gap-3 bg-[#191819] text-2xl md:text-3xl lg:text-4xl text-white py-4 px-5 rounded-2xl cursor-pointer hover:scale-103 transition-all duration-300"
+            className="flex justify-center items-center gap-3 bg-[#191819] text-2xl md:text-3xl 2xl:text-4xl text-white py-4 px-5 lg:py-5 lg:px-6 rounded-2xl cursor-pointer hover:scale-103 transition-all duration-300"
             onClick={getCurrentLocation}
           >
             <FaLocationDot className="" />
