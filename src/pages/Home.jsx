@@ -99,14 +99,14 @@ function Home() {
     }
   };
   useEffect(() => {
-    console.log("City state updated:", city);
+    // console.log("City state updated:", city);
     if (city && city.latitude && city.longitude) {
       fetchWeather(city.latitude, city.longitude);
     }
   }, [city]);
 
   useEffect(() => {
-    console.log("Weather data:", weatherData);
+    // console.log("Weather data:", weatherData);
   }, [weatherData]);
 
   return (
@@ -180,7 +180,7 @@ function Home() {
             onClick={() =>
               setTemperatureUnit(temperatureUnit === "C" ? "F" : "C")
             }
-            className="flex justify-between  items-center bg-[#1d1b1d] rounded-xl w-25"
+            className="flex justify-between  items-center bg-[#1d1b1d] rounded-xl w-25 cursor-pointer"
           >
             <div
               className={`w-1/2 p-2 rounded-xl text-base md:text-lg lg:text-xl font-semibold transition-all duration-200  ${
