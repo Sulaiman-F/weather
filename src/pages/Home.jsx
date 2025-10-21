@@ -124,7 +124,7 @@ function Home() {
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              fetchCity(searchCity);
+              fetchCity(searchCity.trim());
               setSearchCity("");
             }
           }}
