@@ -1,16 +1,43 @@
-# React + Vite
+# Weather (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a small front-end weather app built with React (Vite) and Tailwind CSS that uses the Open-Meteo APIs (geocoding + forecast). It supports searching for a city, showing current conditions, and a 5-day forecast. The UI includes loading skeletons and a day/night icon heuristic.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Search for a city (Open-Meteo Geocoding API)
+- Current weather: temperature, humidity, wind speed, weather condition
+- 5-day forecast (min/max temperatures and weather icons)
+- Loading skeletons while fetching
+- Temperature unit toggle (°C / °F)
 
-## React Compiler
+## API Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Geocoding: `https://geocoding-api.open-meteo.com/v1/search?name={CITY}&count=1`
+- Forecast: `https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto`
 
-## Expanding the ESLint configuration
+Notes:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- The app uses Open-Meteo's free public endpoints; no API key required.
+- `weather_code` from the API is mapped to friendly icons/labels in `src/utils/weatherCode.js`.
+
+## Local setup
+
+Requirements: Node.js 18+ recommended.
+
+1. Install dependencies
+
+```powershell
+npm install
+```
+
+2. Start dev server
+
+```powershell
+npm run dev
+```
+
+3. Open the URL printed by Vite (usually `http://localhost:5173`).
+
+## Environment
+
+- No API keys required for Open-Meteo.
