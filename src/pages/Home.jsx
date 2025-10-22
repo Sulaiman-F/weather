@@ -30,6 +30,7 @@ function Home() {
           },
           duration: 3000,
         });
+        return;
       }
       const response = await axios.get(
         `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=1`
@@ -54,8 +55,6 @@ function Home() {
         },
         duration: 3000,
       });
-    } finally {
-      setLoading(false);
     }
   };
   const fetchWeather = async (latitude, longitude) => {
